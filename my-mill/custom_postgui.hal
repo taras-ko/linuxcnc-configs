@@ -13,12 +13,12 @@ addf joyhandle.2 servo-thread   # z
 addf joyhandle.3 servo-thread   # spindle-speed
 
 # Not found
-setp halui.jog-speed   1500	# desired maximum jog speed mm/min
+setp halui.axis.jog-speed   1500	# desired maximum jog speed mm/min
 
 # --Start-- These parameters ara used to set up joyhandle
 
 #Not found
-setp halui.jog-deadband   0.	# important: default value is 0.2, that would override joyhandle.deadband
+setp halui.axis.jog-deadband   0.	# important: default value is 0.2, that would override joyhandle.deadband
 
 setp joyhandle.0.power 3.	# select nonlinearity to handele low jog values
 setp joyhandle.1.power 3.
@@ -38,13 +38,13 @@ setp joyhandle.3.scale -1.
 # connect hal_input to halui via joyhandle (in case use your own axes-names)
 
 net velX input.0.abs-x-position => joyhandle.0.in
-net velXout joyhandle.0.out => halui.jog.0.analog
+net velXout joyhandle.0.out => halui.axis.x.analog
 
 net velY input.0.abs-y-position => joyhandle.1.in
-net velYout joyhandle.1.out => halui.jog.1.analog
+net velYout joyhandle.1.out => halui.axis.y.analog
 
 net velZ input.0.abs-rz-position => joyhandle.2.in
-net velZout joyhandle.2.out => halui.jog.2.analog
+net velZout joyhandle.2.out => halui.axis.z.analog
 
 # Jog safety
 
@@ -66,7 +66,7 @@ net remote-speed-fast or2.0.in1 or2.1.in1 input.0.btn-b
 
 net joy-speed-1 mux4.0.sel0 <= or2.0.out
 net joy-speed-2 mux4.0.sel1 <= or2.1.out
-net joy-speed-final halui.jog-speed <= mux4.0.out
+net joy-speed-final halui.axis.jog-speed <= mux4.0.out
 
 # Program control
 loadrt and2 count=6
@@ -110,7 +110,7 @@ addf conv-float-s32.0 servo-thread
 addf conv-s32-bit.0 servo-thread
 
 #net velX input.0.abs-z-position => joyhandle.0.in
-#net velXout joyhandle.0.out => halui.jog.0.analog
+#net velXout joyhandle.0.out => halui.axis.x.analog
 
 #net spindleRPM input.0.abs-rz-position => joyhandle.3.in
 net spindleRPMout joyhandle.3.out => conv-float-s32.0.in
