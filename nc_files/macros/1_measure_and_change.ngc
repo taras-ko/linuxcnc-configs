@@ -1,0 +1,46 @@
+o<1_measure_and_change> sub
+
+g21 g90 
+g49
+
+g53 g0 z0
+
+(measure reference tool)
+g30 (above switch)
+g59.3 g0 z30
+
+g38.2 z1 f300 (fast goto probe button)
+g91 g0 z1 (off the switch)
+g38.2 z-2.1 f50 (slowly mesaure too length)
+g91 g0 z5 (off the switch)
+#1000=#5063 (save reference tool length)
+(print,reference length is #1000)
+g90 (done)
+g53 g0 z0
+
+g28 (goto change tool origin)
+
+m0 (change tool)
+
+(measure next tool)
+g30 (above switch)
+g49 (measure without the last tool's offset)
+g59.3 g0 z30
+
+g38.2 z0 f300 (fast goto probe button)
+g91 g0z2 (off the switch)
+g38.2 z-2.2 f50 (slowly mesaure too length)
+g91 g0 z5 (off the switch)
+g43.1 z[#5063-#1000] (set new tool offset)
+(print,new length is #5063)
+g90 (done)
+
+g53 g0 z0 (tool up)
+
+g54
+m0
+g0x0y0
+
+o<1_measure_and_change> endsub
+(exit with tool length offset still in effect, in case we want to use MDI)
+m2
